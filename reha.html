@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html class="wf-roboto-n4-active wf-roboto-n5-active wf-active">
+
+<head>
+
+    <link rel="icon" href="/images/favicon.jpg" type="image/gif" sizes="16x16">
+    <title>COVID19 Tracker | INDIA</title>
+    <meta name="description" content="COVID-19 Tracker/Predictor platform to track live spread of the virus, vizualizes the data using maps nd charts and estimate new cases.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+</head>
+
+
+<body class="" data-gr-c-s-loaded="true">
+<tr>
+<td width="8%" align="center" bgcolor="purple" "class="links" ><font color="white"><blink>sr.no</blink></td>
+<td width="18%" align="center" bgcolor="purple"  "class="links"><font color="white">State</td>
+<td width="18%" align="center" bgcolor="purple" "class="links"  ><font color="white">confirmed</td>
+<td width="18%" align="center" bgcolor="purple" "class="links"><font color="white">active</td>
+<td width="18%" align="center" bgcolor="purple" "class="links" ><font color="white">recovered</td>
+<td width="18%" align="center" bgcolor="purple" "class="links" ><font color="white">deaths</td>
+</tr>
+    <nav class="navbar navbar-expand-lg " style="background-color:#ffffff">
+        <div class="ui container">
+            <h1 class="text-center text-danger mt-5">
+                <img src="https://raw.githubusercontent.com/dominatora/covid19-tracker/master/covid19Tracker/icon-death.png" alt="virus_icon"> COVID-19 <button type="button" onclick="refreshData()" class="btn btn-light" style="font-family:archia; color: green;">LIVE</button>                <img src="https://raw.githubusercontent.com/dominatora/covid19-tracker/master/covid19Tracker/icon-active.png" alt="virus_icon"></h1>
+
+
+        </div>
+    </nav>
+
+
+    <div class="ui container-fluid">
+        <div class="two column stackable ui grid">
+            <div class="eight wide column fade-in one">
+                <div class="two column stackable ui grid">
+                    <div class="ui grid">
+                        <div class="eight wide column">
+                            <br>
+                            <br>
+                            <h1 class="text-info"> WORLD</h1>
+                            <div class="ui  red card">
+                                <div class="content">
+                                    <div class="header" style="color:#a333c8;">Total Cases</div>
+                                    <div class="description ">
+                                        <strong id="g_conf"></strong>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui orange card">
+                                <div class="content">
+                                    <div class="header" style="color: rgb(255, 102, 0);">Active Cases</div>
+                                    <div class="description">
+                                        <strong class="count" id="g_active"></strong>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui green card">
+                                <div class="content">
+                                    <div class="header " style="color: rgb(0, 102, 0);">Recovered Cases</div>
+
+                                    <div class="description">
+                                        <strong class="count" id="g_dis"></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui olive card">
+                                <div class="content">
+                                    <div class="header olive" style="color: rgb(204, 51, 0);">Deaths Cases</div>
+
+                                    <div class="description">
+                                        <strong class="count" id="g_dead"></strong>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="eight wide column">
+                            <br>
+                            <br>
+                            <h1 class="text-info"> INDIA</h1>
+                            <div class="ui  red card">
+                                <div class="content">
+                                    <div class="header" style="color:#a333c8;">Total Cases</div>
+                                    <div class="description">
+                                        <strong class="count" id="ind_conf"></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui orange card">
+                                <div class="content">
+                                    <div class="header" style="color: rgb(255, 102, 0);">Active Cases</div>
+                                    <div class="description">
+                                        <strong class="count" id="ind_active"></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui green card">
+                                <div class="content">
+                                    <div class="header " style="color: rgb(0, 102, 0);">Recovered Cases</div>
+
+                                    <div class="description">
+                                        <strong class="count" id="ind_dis"></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui olive card">
+                                <div class="content">
+                                    <div class="header" style="color: rgb(204, 51, 0);">Deaths Cases</div>
+                                    <div class="description">
+                                        <strong class="count" id="ind_dead"></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui segment" style="width: 95%; margin: .25rem 1rem;">
+
+                            <div class="eight wide column">
+                                <div>
+                                    <canvas id="myChart_cases" height="200" width="400"></canvas>
+                                </div>
+
+
+                                <div>
+                                    <canvas id="myChart_rec" height="200" width="400"></canvas>
+                                </div>
+                                <div>
+                                    <canvas id="myChart_dead" height="200" width="400"></canvas>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" column">
+                <div class="column"><br><strong class="text-success text-capitalize">India Statewise  <i class="in flag"></i></strong>
+                    <div class="ui segment">
+                        <table class="table table-hover" style="border-collapse: separate;
+                        border-spacing: 3px 4px; color:#1f2932;">
+                            <thead class="thead-dark sticky-top">
+                                <tr>
+                                    <th>State/UT</th>
+                                    <th>Confirmed</th>
+                                    <th>Active</th>
+                                    <th>Recovered</th>
+                                    <th>Deceased</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data_state_wise">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+    <script>
+        new Darkmode().showWidget();
+    </script>
+
+    <footer class="section sticky-bottom" style="background-color:#1f2932">
+        <div class="center grey-text" style="color: #6dffff;
+font-weight: 600;
+margin: 1rem 0 .5rem;">
+
+            <h6 style="text-align:center;">We stand with everyone fighting on the frontlines
+            </h6>
+            <h6 style="text-align: center;">&copy; rekha.</h6>
+            <div class="description">
+                <p style="text-align: center;"><strong class="count">Created By </strong> Rekha</p>
+
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    init()
+
+
+    function init() {
+        var url1 = "https://api.rootnet.in/covid19-in/stats/latest"
+        var url2 = "https://api.thevirustracker.com/free-api?global=stats"
+        var url3 = "https://api.rootnet.in/covid19-in/stats/history"
+
+        $.get(url2, function(data) {
+
+            var g_conf = data.results[0].total_cases;
+            var glob_conf = data.results[0].total_cases;
+            var g_dis = data.results[0].total_recovered;
+            var g_dead = data.results[0].total_deaths;
+            var g_active = g_conf - (g_dead + g_dis);
+
+            g_conf = g_conf + "   +(" + data.results[0].total_new_cases_today + ")";
+            g_dead = g_dead + "   +(" + data.results[0].total_new_deaths_today + ")";
+            var i = data.results[0].total_new_cases_today;
+            var j = data.results[0].total_new_deaths_today;
+            g_active = g_active + " +(" + (i - j) + ")";
+            $("#g_conf").html(g_conf)
+            $("#g_active").html(g_active)
+            $("#g_dis").html(g_dis)
+            $("#g_dead").html(g_dead)
+
+        })
+        $.get(url1, function(d) {
+
+
+            var ind_dis = d.data.summary.discharged;
+            var ind_dead = d.data.summary.deaths;
+            var ind_conf = d.data.summary.total;
+            var ind_active = ind_conf - (ind_dead + ind_dis);
+            $("#ind_conf").html(ind_conf)
+            $("#ind_dead").html(ind_dead)
+            $("#ind_dis").html(ind_dis)
+            $("#ind_active").html(ind_active)
+
+
+
+
+
+            d.data.regional.forEach(function(i) {
+
+                row = `  <tr>
+       	      <td>${i.loc}</td>
+       	      <td>${(i.totalConfirmed)}</td>
+       	      <td>${(i.deaths)}</td>
+       	      <td>${(i.discharged)}</td>
+              <td>${(i.deaths)}</td>
+              </tr> `
+                var table = $('#data_state_wise')
+                table.append(row);
+
+
+            });
+        })
+
+        var xlabels = [];
+        var showcaseData = [];
+        var x = 0;
+        $.get(url3, function(d) {
+
+            d.data.forEach(function(i) {
+
+                x++;
+
+            });
+            var xlabel = [];
+            var show = [];
+            var dead = [];
+            var rec = [];
+            var showrec = [];
+            var showdead = [];
+            var v = x - 10 - 1;
+            x = 0;
+            d.data.forEach(function(i) {
+
+                if (x >= v) {
+                    var a = i.day;
+                    var b = i.summary.total;
+                    xlabel.push(a);
+                    show.push(b);
+                    rec.push(i.summary.discharged);
+                    dead.push(i.summary.deaths);
+                }
+                x++;
+
+            });
+
+            for (var i = 1; i <= 11; i++) {
+                if (i <= 10) {
+                    xlabels[i - 1] = xlabel[i];
+                }
+                showcaseData[i - 1] = show[i] - show[i - 1];
+                showrec[i - 1] = rec[i] - rec[i - 1];
+                showdead[i - 1] = dead[i] - dead[i - 1];
+
+            }
+
+            const ctx1 = document.getElementById('myChart_cases');
+            const myChart_cases = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: xlabels,
+                    datasets: [{
+                        label: 'New cases',
+                        data: showcaseData,
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        borderColor: 'rgba(255, 159, 64, 0.2)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            const ctx2 = document.getElementById('myChart_rec');
+            const myChart_rec = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: xlabels,
+                    datasets: [{
+                        label: 'Recovered',
+                        data: showrec,
+                        backgroundColor: 'rgba(123, 239, 178, 1)',
+                        borderColor: 'rgba(54, 215, 183, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            const ctx3 = document.getElementById('myChart_dead');
+            const myChart_dead = new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: xlabels,
+                    datasets: [{
+                        label: 'Deaths',
+                        data: showdead,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 159, 64, 0.2)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+        })
+
+
+    }
+
+    function refreshData() {
+        clearData()
+    }
+
+    function clearData() {
+        $("#data").empty()
+        $("#data_state_wise").empty()
+        init()
+    }
+</script>
+
+
+</html>
